@@ -13,7 +13,6 @@ class Assignment:
         return (self.grade/100) * self.weight
 
     def to_dict(self):
-        """Convert assignment to dictionary format"""
         return {
             'name': self.name,
             'category': self.category,
@@ -124,7 +123,6 @@ class Report_Generator:
         pass
     
     def print_summary(self, summary):
-        """Print formatted summary to console"""
         print("\n" + "=" * 50)
         print("GRADE SUMMARY")
         print("=" * 50)
@@ -161,14 +159,12 @@ class GradeGeneratorApp:
         self.reporter = ReportGenerator()
     
     def display_welcome(self):
-        """Display welcome message"""
         print("=" * 50)
         print("GRADE GENERATOR CALCULATOR")
         print("=" * 50)
         print()
     
     def collect_assignment_data(self):
-        """Collect data for a single assignment"""
         print("\n--- Enter Assignment Details ---")
         
         name = input("Assignment Name: ").strip()
