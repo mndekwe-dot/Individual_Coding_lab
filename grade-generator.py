@@ -64,4 +64,61 @@ class inputvalidator:
                 return response
             print("Error: Please enter 'y' or 'n'.")
 
+class GradeCalculator:    
+    def __init__(self):
+        self.assignments = []
+    
+    def add_assignment(self, assignment):
+        self.assignments.append(assignment)
+    
+    def get_category_total(self, category):
+        return sum(a.weighted_grade for a in self.assignments if a.category == category)
+    
+    def get_category_weight(self, category):
+        return sum(a.weight for a in self.assignments if a.category == category)
+    
+    def calculate_final_grade(self):
+        return sum(a.weighted_grade for a in self.assignments)
+    
+    def calculate_gpa(self):
+        final_grade = self.calculate_final_grade()
+        return (final_grade / 100) * 5.0
+    
+    def determine_status(self):
+        total_fa = self.get_category_total('FA')
+        total_sa = self.get_category_total('SA')
+        total_fa_weight = self.get_category_weight('FA')
+        total_sa_weight = self.get_category_weight('SA')
+        
+        fa_threshold = total_fa_weight * 0.5
+        sa_threshold = total_sa_weight * 0.5
+        
+        passed = True
+        resubmit = []
+        
+        if total_fa_weight > 0 and total_fa < fa_threshold:
+            passed = False
+            resubmit.append("Formative Assessments")
+        
+        if total_sa_weight > 0 and total_sa < sa_threshold:
+            passed = False
+            resubmit.append("Summative Assessments")
+        
+        return passed, resubmit
+    
+    def get_summary(self):
+        passed, resubmit = self.determine_status()
+        return {
+            'total_assignments': len(self.assignments),
+            'formative_total': self.get_category_total('FA'),
+            'formative_weight': self.get_category_weight('FA'),
+            'summative_total': self.get_category_total('SA'),
+            'summative_weight': self.get_category_weight('SA'),
+            'final_grade': self.calculate_final_grade(),
+            'gpa': self.calculate_gpa(),
+            'passed': passed,
+            'resubmit': resubmit
+        }
+
+
 
