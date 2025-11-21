@@ -63,14 +63,13 @@ class inputvalidator:
             if response in ['y', 'n']:
                 return response
             print("Error: Please enter 'y' or 'n'.")
-
 class GradeCalculator:    
     def __init__(self):
         self.assignments = []
     
     def add_assignment(self, assignment):
         self.assignments.append(assignment)
-    
+
     def get_category_total(self, category):
         return sum(a.weighted_grade for a in self.assignments if a.category == category)
     
@@ -120,5 +119,92 @@ class GradeCalculator:
             'resubmit': resubmit
         }
 
+class Report_Generator:
+    def __init__(self):
+        pass
+    
+    def print_summary(self, summary):
+        """Print formatted summary to console"""
+        print("\n" + "=" * 50)
+        print("GRADE SUMMARY")
+        print("=" * 50)
+        print(f"\nTotal Assignments: {summary['total_assignments']}")
+        print(f"\nFormative Total: {summary['formative_total']:.2f} / {summary['formative_weight']:.2f}")
+        print(f"Summative Total: {summary['summative_total']:.2f} / {summary['summative_weight']:.2f}")
+        print(f"\nFinal Grade: {summary['final_grade']:.2f}%")
+        print(f"GPA: {summary['gpa']:.2f} / 5.0")
+        print(f"Status: {'PASS' if summary['passed'] else 'FAIL'}")
+        
+        if not summary['passed']:
+            print(f"Assignments to Resubmit: {', '.join(summary['resubmit'])}")
+        
+        print("=" * 50)
+    
+    def export_to_csv(self, assignments, filename='grades.csv'):
+        with open(filename, 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow(['Assignment', 'Category', 'Grade', 'Weight'])
+            
+            for assignment in assignments:
+                writer.writerow([
+                    assignment.name,
+                    assignment.category,
+                    assignment.grade,
+                    assignment.weight
+                ])
+        
+        print(f"\n✓ Data exported to {filename}")
+class GradeGeneratorApp:
+    def __init__(self):
+        self.calculator = GradeCalculator()
+        self.validator = InputValidator()
+        self.reporter = ReportGenerator()
+    
+    def display_welcome(self):
+        """Display welcome message"""
+        print("=" * 50)
+        print("GRADE GENERATOR CALCULATOR")
+        print("=" * 50)
+        print()
+    
+    def collect_assignment_data(self):
+        """Collect data for a single assignment"""
+        print("\n--- Enter Assignment Details ---")
+        
+        name = input("Assignment Name: ").strip()
+        category = self.validator.get_valid_category()
+        grade = self.validator.get_valid_grade()
+        weight = self.validator.get_valid_weight()
+        
+        return Assignment(name, category, grade, weight)
+    
+    def run(self):
+        """Main application loop"""
+        self.display_welcome()
+        
+        # Collect assignments
+        while True:
+            assignment = self.collect_assignment_data()
+            self.calculator.add_assignment(assignment)
+            
+            add_more = self.validator.get_yes_no_input("\nAdd another assignment? (y/n): ")
+            
+            if add_more == 'n':
+                break
+        
+        # Generate and display summary
+        summary = self.calculator.get_summary()
+        self.reporter.print_summary(summary)
+        
+        # Export to CSV
+        self.reporter.export_to_csv(self.calculator.assignments)
+def main():
+    app = GradeGeneratorApp()
+    app.run()
+
+
+if __name__ == "__main__":
+    main()
+ 
 
 
