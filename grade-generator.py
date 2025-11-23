@@ -2,6 +2,7 @@ import csv
 from datetime import datetime
 
 class Assignment:
+    """Class to represent an assignment with its details."""
     def __init__(self, name, category, grade, weight):
         self.name = name
         self.category = category.upper()
@@ -24,6 +25,7 @@ class Assignment:
     def __str__(self):
         return f"{self.name} ({self.category}): {self.grade}% - Weight: {self.weight}"
 class InputValidator:
+    """Class to handle input validation for grades, weights, and categories."""
     def __init__(self):
         pass
     def get_valid_grade(self):
@@ -62,7 +64,8 @@ class InputValidator:
             if response in ['y', 'n']:
                 return response
             print("Error: Please enter 'y' or 'n'.")
-class GradeCalculator:    
+class GradeCalculator:
+    """ Class to calculate final grades and GPA."""    
     def __init__(self):
         self.assignments = []
     
@@ -119,6 +122,7 @@ class GradeCalculator:
         }
 
 class Report_Generator:
+    """Class to generate and print grade reports."""
     def __init__(self):
         pass
     
@@ -153,6 +157,7 @@ class Report_Generator:
         
         print(f"\n✓ Data exported to {filename}")
 class GradeGeneratorApp:
+    """Main application class to run the Grade Generator."""
     def __init__(self):
         self.calculator = GradeCalculator()
         self.validator = InputValidator()
@@ -195,6 +200,7 @@ class GradeGeneratorApp:
         # Export to CSV
         self.reporter.export_to_csv(self.calculator.assignments)
 def main():
+    """Entry point for the Grade Generator application."""
     app = GradeGeneratorApp()
     app.run()
 
