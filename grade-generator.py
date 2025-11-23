@@ -23,7 +23,7 @@ class Assignment:
     
     def __str__(self):
         return f"{self.name} ({self.category}): {self.grade}% - Weight: {self.weight}"
-class inputvalidator:
+class InputValidator:
     def __init__(self):
         pass
     def get_valid_grade(self):
@@ -156,7 +156,7 @@ class GradeGeneratorApp:
     def __init__(self):
         self.calculator = GradeCalculator()
         self.validator = InputValidator()
-        self.reporter = ReportGenerator()
+        self.reporter = Report_Generator()
     
     def display_welcome(self):
         print("=" * 50)
