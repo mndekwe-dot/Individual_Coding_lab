@@ -4,6 +4,7 @@ from datetime import datetime
 class Assignment:
     """Class to represent an assignment with its details."""
     def __init__(self, name, category, grade, weight):
+        """initialize assigment variables"""
         self.name = name
         self.category = category.upper()
         self.grade = grade
@@ -11,6 +12,7 @@ class Assignment:
         self.weighted_grade = self.calculate_weighted_grade()
 
     def calculate_weighted_grade(self):
+        """Calculate the weighted grade for the assignment."""
         return (self.grade/100) * self.weight
 
     def to_dict(self):
@@ -29,11 +31,12 @@ class InputValidator:
     def __init__(self):
         pass
     def get_valid_grade(self):
+        """to check that mark ralies in 0-100"""
         while True:
             try:
                 grade = float(input("Grade Obtained (0-100): "))
                 if 0 <= grade <= 100:
-                    return grade
+                    return grade 
                 else:
                     print("Error: Grade must be between 0 and 100.")
             except ValueError:

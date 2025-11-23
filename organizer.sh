@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# organizer.sh - Archive CSV files with timestamps
+# organizer.sh - In charge of archiving CSV files with timestamps
 
-# ✅ REQUIREMENT 1: Check/Create Archive
+# ✅ REQUIREMENT 1: To check/create Archive
 if [ ! -d "archive" ]; then
     mkdir archive
     echo "Created archive directory"
